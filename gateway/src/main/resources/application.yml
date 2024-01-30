@@ -1,0 +1,28 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+      routes:
+        - id: test_service_route
+          uri: lb://testservice
+          predicates:
+            - Path=/testservice/**
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
